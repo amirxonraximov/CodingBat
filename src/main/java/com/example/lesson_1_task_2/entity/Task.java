@@ -26,6 +26,9 @@ public class Task {
     private String method;
 
     @ManyToOne
+    private User user;
+
+    @ManyToOne
     private Language language;
 
     private boolean hasStar;

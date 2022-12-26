@@ -1,9 +1,6 @@
 package com.example.lesson_1_task_2.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,4 +18,7 @@ public class Category {
     private String name;
 
     private String description;
+
+    @ManyToOne
+    private Language language;
 }

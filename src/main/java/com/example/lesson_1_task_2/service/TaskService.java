@@ -2,10 +2,12 @@ package com.example.lesson_1_task_2.service;
 
 import com.example.lesson_1_task_2.entity.Language;
 import com.example.lesson_1_task_2.entity.Task;
+import com.example.lesson_1_task_2.entity.User;
 import com.example.lesson_1_task_2.payload.ApiResponse;
 import com.example.lesson_1_task_2.payload.TaskDto;
 import com.example.lesson_1_task_2.repository.LanguageRepository;
 import com.example.lesson_1_task_2.repository.TaskRepository;
+import com.example.lesson_1_task_2.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,9 @@ public class TaskService {
     TaskRepository taskRepository;
 
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     LanguageRepository languageRepository;
 
     public ApiResponse addTask(TaskDto taskDto) {
@@ -29,6 +34,12 @@ public class TaskService {
         task.setSolution(taskDto.getSolution());
         task.setHint(taskDto.getHint());
         task.setMethod(taskDto.getMethod());
+
+        Optional<User> optionalUser = userRepository.findById(taskDto.getUserId());
+        if (optionalUser.isEmpty()) {
+            return new ApiResponse("User not found", false);
+        }
+        task.setUser(optionalUser.get());
 
         Optional<Language> optionalLanguage = languageRepository.findById(taskDto.getLanguageId());
         if (optionalLanguage.isEmpty()) {
@@ -64,6 +75,12 @@ public class TaskService {
         editingTask.setSolution(taskDto.getSolution());
         editingTask.setHint(taskDto.getHint());
         editingTask.setMethod(taskDto.getMethod());
+
+        Optional<User> optionalUser = userRepository.findById(taskDto.getUserId());
+        if (optionalUser.isEmpty()) {
+            return new ApiResponse("User not found", false);
+        }
+        editingTask.setUser(optionalUser.get());
 
         Optional<Language> optionalLanguage = languageRepository.findById(taskDto.getLanguageId());
         if (optionalLanguage.isEmpty()) {
